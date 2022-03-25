@@ -1,0 +1,55 @@
+# Set the defaults for the configuration files of the tests, so only relevant changes are expressed. RECOMMENDED CHANGES FOR GPVRNN
+
+[dataset]
+#norm.enable  = true  # enable normalization; if false, other norm.* param are useless. IGNORED BY GPVRNN
+norm.raw_min =  -1.0  # raw data minimum; if set to 0 both, will auto compute the min/max <- NOT RECOMMENDED FOR GPVRNN, SET MANUALLY
+norm.raw_max =  1.0  # raw data maximum
+#norm.min     =  0.0  # norm min; if 0 both, picks defaults values based on output layer (recommended). IGNORED BY GPVRNN
+#norm.max     =  0.0  # norm max IGNORED BY GPVRNN
+
+# dataset_path =  # no dataset_path default
+
+
+[network]
+layers = [  # parameters for each of the layers, starting at the bottom layer. GPVRNN STRONGLY RECOMMENDS SM OUTPUT WITH DEFAULT SETTINGS
+    { type = "sm", sm_unit = 10, sm_sigma = [0.05] },
+    { type = "pvrnn", d = 20, z = 2, tau = 2, w = 0.001,  beta = 1.0 },
+    { type = "pvrnn", d = 10, z = 1, tau = 4, w = 0.0001, beta = 1.0 }
+]
+
+sigma_min =   0.0  # A's sigma clipping min
+sigma_max =   0.0  # A's sigma clipping max
+#zero_init = true  # zero initialization CANNOT BE CHANGED IN GPVRNN
+
+
+[training]
+#rng_seed       =   1  # random seed for the start of training IGNORED BY GPVRNN
+n_epoch        = 100  # number of epochs to train
+save_interval  =  10  # Save the network weights and sequences every `save_interval` epochs
+# save_directory =  # no save directory default
+#backend = "cpp" # CANNOT BE CHANGED IN GPVRNN
+
+[training.optimizer]
+name     = "adam"
+adam.alpha = 0.001  # parameters for Adam optimizer (training)
+adam.beta1 = 0.9
+adam.beta2 = 0.999
+
+
+[er]
+window_size   =    2  # size of the ER window
+grow_window   = true  # enable a growing window at the start
+epoch_to_load =   -1  # which training epoch to load. -1 for the latest.
+n_itr         =   10  # number of ER iterations per timestep
+pred_step     =    1  # prediction step after the current timestep
+total_step    =   10
+w    = []
+beta = []
+#backend = "cpp" # CANNOT BE CHANGED IN GPVRNN
+# save_directory =  # no save directory default
+
+[er.optimizer]
+name = "adam"
+adam.alpha = 0.001  # parameters for Adam optimizer (ER)
+adam.beta1 = 0.9
+adam.beta2 = 0.999

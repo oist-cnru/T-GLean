@@ -1,0 +1,11 @@
+[data]
+nSeq = 4
+normMax = 1.0
+normMin = 0.0
+rawDim = 5
+rawMax = 1.25
+rawMin = -1.25
+seqLen = 70
+
+[save]
+rowMajorW = true

@@ -1,0 +1,29 @@
+base = 'test_gbase.toml'
+
+[dataset]
+dataset_path = "../../datasets/branching_2_10_3/branching_two_g.npy"
+norm.raw_min = -1.0
+norm.raw_max =  1.0
+n_seq = 2
+seq_len = 10
+output_size = 3
+minibatch_size = 2
+
+[training.optimizer]
+adam.alpha = 0.01
+
+[training]
+n_epoch        = 5000
+save_directory = "test_gpipeline"
+
+# The planner will override most ER settings
+[planning]
+optimizer.adam.alpha = 0.1
+n_itr          = 50
+save_directory = "test_gpipeline/planning_output"
+# GPvrnn exclusive: set mask dimensions, 0-indexed and inclusive
+goal_mask.start = 2
+goal_mask.end   = 2
+
+[er]
+save_directory = "test_gpipeline"
